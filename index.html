@@ -1,9 +1,52 @@
 <html>
     <head>
         <link rel="stylesheet" href="./style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="./html2canvas.js"></script>
+        <script src="./FileSaver.min.js"></script>
+        <script>
+            var loadFile = function(event) {
+                //var image = document.getElementById('output');
+                //image.src = URL.createObjectURL(event.target.files[0]);
+                var outputdiv = $("#outputdiv");
+                var url = URL.createObjectURL(event.target.files[0]);
+                outputdiv.css("background-image", `url(${url})`);
+            };
+
+            $(document).ready(function(){
+                $( "#outputdiv" ).resizable({
+                    maxWidth:400,
+                    minWidth:150,
+                    maxHeight:400,
+                    minHeight:200,
+                }).draggable();
+
+                $("#btnSave").click(function() { 
+                    const canvas = document.getElementById('cvResult');                  
+                    var imageURI = canvas.toDataURL("image/jpg");
+                    el.href = imageURI;
+                });
+                
+                const canvas = document.getElementById('cvResult');
+                const ctx = canvas.getContext('2d');
+                const img = document.getElementById('a');
+                ctx.drawImage(img, 0, 0);
+            });
+        </script>
     </head>
     <body>
-        <h1>My Page</h1>
-        <p>My page is empty.</p>
+        <h1>음해 생성기</h1>
+        <input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+        <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+        <div id="outputwrap">
+            <div id="outputdiv">
+                <img id="output"/>	
+            </div>
+        </div>
+        <button id="btnSave">Save</button>
+        <canvas id="cvResult" width="850" height="478"></canvas>
+        <img id="a" src="./a.png" crossorigin=""></img>
     </body>
 </html>

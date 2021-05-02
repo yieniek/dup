@@ -1,3 +1,17 @@
-p{
-    background-color:red;
+#a{
+    visibility:hidden;
+}
+
+#outputdiv{
+    position:fixed;
+    width:150px;
+    height:200px;
+    top:480;
+    left:60;
+    overflow:hidden; 
+}
+
+#output {
+    min-width: 100%;
+    min-height: 100%;
 }
