@@ -32,9 +32,13 @@
                     const ctx = canvas.getContext('2d');
                     const img = document.getElementById('a');
                     const img2 = document.getElementById('output');
+                    var rect = img.getBoundingClientRect();
                     var rect2 = img2.getBoundingClientRect();
+                    var l = $('#outputdiv').offset().left;
+                    var t = $('#outputdiv').offset().top - $('#a').offset().top;
+                    console.log(l, t);
                     ctx.drawImage(img, 0, 0);
-                    ctx.drawImage(img2, rect2.top, rect2.left, rect2.right, rect2.bottom);
+                    ctx.drawImage(img2, l, t, rect2.width, rect2.height);
                 });
             });
         </script>
@@ -43,14 +47,18 @@
         <h1>음해 생성기</h1>
         <input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
         <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+        <img id="a" src="./a.png"></img>
         <div id="outputwrap">
             <div id="outputdiv">
                 <img id="output"/>	
             </div>
         </div>
-        <button id="btnSave">Save</button>
-        <button id="btnDraw">Draw</button>
-        <canvas id="cvResult" width="850" height="478"></canvas>
-        <img id="a" src="./a.png" crossorigin=""></img>
+        <div>
+            <button id="btnSave">Save</button>
+            <button id="btnDraw">Draw</button>
+        </div>
+        <div>
+            <canvas id="cvResult" width="850" height="478"></canvas>
+        </div>
     </body>
 </html>

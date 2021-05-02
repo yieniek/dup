@@ -1,9 +1,9 @@
 #a{
-    visibility:hidden;
+    position:relative;
 }
 
 #outputdiv{
-    position:fixed;
+    position:absolute;
     width:150px;
     height:200px;
     top:480;
