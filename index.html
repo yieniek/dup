@@ -24,9 +24,10 @@
                 }).draggable();
 
                 $("#btnSave").click(function() { 
-                    const canvas = document.getElementById('cvResult');                  
-                    var imageURI = canvas.toDataURL("image/jpg");
-                    el.href = imageURI;
+                    var canvas = document.getElementById("cvResult");
+                    canvas.toBlob(function(blob) {
+                        saveAs(blob, "pretty image.png");
+                    });
                 });
                 
                 const canvas = document.getElementById('cvResult');
