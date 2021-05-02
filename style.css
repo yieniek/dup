@@ -1,15 +1,14 @@
 #a{
-    position:relative;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 #outputdiv{
-    position:absolute;
-    width:150px;
-    height:200px;
-    top:100;
-    left:0;
     overflow:hidden; 
     border:3px solid;
+    min-width: 0px;
+    min-height : 0px;
+    position:absolute;
 }
 
 #output {

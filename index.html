@@ -1,72 +1,158 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="./style.css">
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="./html2canvas.js"></script>
-        <script src="./FileSaver.min.js"></script>
-        <script>
-            var loadFile = function(event) {
-                var image = document.getElementById('output');
-                image.src = URL.createObjectURL(event.target.files[0]);
-            };
-            var draw = function(){
-                const canvas = document.getElementById('cvResult');
-                const ctx = canvas.getContext('2d');
-                const img = document.getElementById('a');
-                const img2 = document.getElementById('output');
-                var w = $('#outputdiv').width();
-                var h = $('#outputdiv').height();
-                var l = $('#outputdiv').offset().left;
-                var t = $('#outputdiv').offset().top - $('#a').offset().top;
-                console.log(l, t);
-                ctx.drawImage(img, 0, 0);
-                ctx.drawImage(img2, l, t, w, h);
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    <title>Starter Template · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/starter-template/">
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
             }
-            $(document).ready(function(){
-                $( "#outputdiv" ).resizable({
-                    maxWidth:400,
-                    minWidth:150,
-                    maxHeight:400,
-                    minHeight:200,
-                    stop: function( event, ui ) {
-                        draw()
-                    }
-                }).draggable({
-                    stop: function( event, ui ) {
-                        draw()
-                    }
-                });
+        }
+    </style>
 
-                $("#btnSave").click(function() { 
-                    var canvas = document.getElementById("cvResult");
-                    canvas.toBlob(function(blob) {
-                        saveAs(blob, "pretty image.png");
-                    });
-                });
 
-                $("#btnDraw").click(function() { 
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="./html2canvas.js"></script>
+    <script src="./FileSaver.min.js"></script>
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            $('#outputdiv').css('width', 100);
+            $('#outputdiv').css('height', 100);
+            // $('#outputdiv').css('left', $('#a').offset().left);
+            // $('#outputdiv').css('right', $('#a').offset().top);
+            $('#outputdiv').css('left', 0);
+            $('#outputdiv').css('top', 0);
+        };
+        var draw = function () {
+            const canvas = document.getElementById('cvResult');
+            const ctx = canvas.getContext('2d');
+            const img = document.getElementById('a');
+            const img2 = document.getElementById('output');
+            var nw = img.naturalWidth;
+            var ratio = nw / img.width;
+            console.log(nw);
+            console.log(ratio);
+            var w = $('#outputdiv').width();
+            var h = $('#outputdiv').height();
+            var l = $('#outputdiv').offset().left - $('#a').offset().left;
+            var t = $('#outputdiv').offset().top - $('#a').offset().top;
+            console.log(l, t);
+            ctx.drawImage(img, 0, 0);
+            ctx.drawImage(img2, l * ratio, t * ratio, w * ratio, h * ratio);
+        }
+        $(document).ready(function () {
+            $("#outputdiv").resizable({
+                maxWidth: 400,
+                minWidth: 10,
+                maxHeight: 400,
+                minHeight: 10,
+                stop: function (event, ui) {
+                    draw()
+                }
+            }).draggable({
+                stop: function (event, ui) {
+                    draw()
+                }
+            });
+
+            $("#btnSave").click(function () {
+                var canvas = document.getElementById("cvResult");
+                canvas.toBlob(function (blob) {
+                    saveAs(blob, "pretty image.png");
                 });
             });
-        </script>
-    </head>
-    <body>
-        <h1>음해 생성기</h1>
-        <input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
-        <img id="a" src="./a.png"></img>
-        <div id="outputwrap">
-            <div id="outputdiv">
-                <img id="output"/>	
+
+            $("#btnDraw").click(function () {
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="col-lg-10 mx-auto p-3 py-md-5">
+        <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                <h1>음해 생성기</h1>
+            </a>
+        </header>
+
+        <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+
+        <h2>이미지 업로드</h2>
+        <p class="fs-5 col-md-8">음해할 버튜버의 이미지를 업로드 하세요</p>
+
+        <div class="mb-5">
+            <label for="file" style="cursor: pointer;" class="btn btn-primary btn-lg px-4">이미지 올리기</label>
+        </div>
+
+        <hr class="col-8">
+
+        <div class="row g-5" style="overflow:hidden">
+            <div class="col-md-10" style="position:relative">
+                <h2>조절하기</h2>
+                <p class="fs-5 col-md-8">마우스로 버튜버의 위치와 크기를 조절하세요</p>
+                <div id="outputwrap">
+                    <img id="a" src="./a.png"></img>
+                    <div id="outputdiv">
+                        <img id="output" />
+                    </div>
+                </div>
+                <div>
+                    
+                </div>
+            
+            </div>
+
+        </div>
+
+        <hr class="col-8">
+
+        <div class="row g-5">
+            <div class="col-md-10">
+                <h2>결과</h2>
+                <p class="fs-5 col-md-8">결과를 확인하고 이미지로 저장하세요</p>
+                <button id="btnSave">저장</button>
+                <div>
+                    <canvas id="cvResult" width="850" height="478"></canvas>
+                </div>
             </div>
         </div>
-        <div>
-            <label for="file" style="cursor: pointer;">이미지 올리기</label>
-            <button id="btnSave">저장</button>
-            <button id="btnDraw">그리기</button>
-        </div>
-        <div>
-            <canvas id="cvResult" width="850" height="478"></canvas>
-        </div>
-    </body>
+        <footer class="pt-5 my-5 text-muted border-top">
+            Created by the Bootstrap team &middot; &copy; 2021
+        </footer>
+
+        <script src="bootstrap.bundle.min.js"></script>
+    </div>
+</body>
+
 </html>
