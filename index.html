@@ -48,16 +48,32 @@
             image.src = URL.createObjectURL(event.target.files[0]);
             $('#outputdiv').css('width', 100);
             $('#outputdiv').css('height', 100);
-            // $('#outputdiv').css('left', $('#a').offset().left);
-            // $('#outputdiv').css('right', $('#a').offset().top);
             $('#outputdiv').css('left', 0);
             $('#outputdiv').css('top', 0);
         };
+        var selectFile = function(img){
+            var image = document.getElementById('output');
+            image.src = img.src;
+            $('#outputdiv').css('width', 100);
+            $('#outputdiv').css('height', 100);
+            $('#outputdiv').css('left', 0);
+            $('#outputdiv').css('top', 0);
+        };
+        var loadBack = function(event){
+            var image = document.getElementById('a');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+        var selectBack = function(img){
+            var image = document.getElementById('a');
+            image.src = img.src;;
+        }
         var draw = function () {
             const canvas = document.getElementById('cvResult');
             const ctx = canvas.getContext('2d');
             const img = document.getElementById('a');
             const img2 = document.getElementById('output');
+            ctx.canvas.width = img.naturalWidth;
+            ctx.canvas.height = img.naturalHeight;
             var nw = img.naturalWidth;
             var ratio = nw / img.width;
             console.log(nw);
@@ -72,9 +88,9 @@
         }
         $(document).ready(function () {
             $("#outputdiv").resizable({
-                maxWidth: 400,
+                maxWidth: 1024,
                 minWidth: 10,
-                maxHeight: 400,
+                maxHeight: 1024,
                 minHeight: 10,
                 stop: function (event, ui) {
                     draw()
@@ -100,22 +116,55 @@
 
 <body>
     <div class="col-lg-10 mx-auto p-3 py-md-5">
-        <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
-            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <h1>음해 생성기</h1>
-            </a>
-        </header>
+        <h1>음해 생성기</h1>
+        <hr class="col-10">
 
         <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;">
+        <input type="file" accept="image/*" name="image" id="file2" onchange="loadBack(event)" style="display: none;">
 
-        <h2>이미지 업로드</h2>
-        <p class="fs-5 col-md-8">음해할 버튜버의 이미지를 업로드 하세요</p>
+        <h2>버튜버 선택</h2>
+        
+        <div class="row g-5">
+            <div class="col-md-5">
+                <label for="file" style="cursor: pointer;" class="btn btn-primary btn-lg px-4">이미지 올리기</label>
+            </div>
 
-        <div class="mb-5">
-            <label for="file" style="cursor: pointer;" class="btn btn-primary btn-lg px-4">이미지 올리기</label>
+            <div class="col-md-5" style="border-left: 1px solid;border-color:lightgray;">
+                <p class="fs-5 col-md-8">혹은 고르기</p>
+                <div class="album py-5 bg-light">
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <img class = "card shadow-sm col" src="fubuki_gb.png" onclick="selectFile(this)"></img>
+                            <img class="card shadow-sm col" src="nene_gb.png" onclick="selectFile(this)"></img>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <hr class="col-8">
+        <hr class="col-10">
+
+        <h2>배경 선택</h2>
+        <div class="row g-5">
+            <div class="col-md-10">
+                <label for="file2" style="cursor: pointer;" class="btn btn-primary btn-lg px-4">이미지 올리기</label>
+            </div>
+            <div class="col-md-10">
+                <p class="fs-5 col-md-8">혹은 고르기</p>
+                <div class="album py-5 bg-light">
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <img class = "card shadow-sm col" src="a.png" onclick="selectBack(this)"></img>
+                            <img class="card shadow-sm col" src="b.png" onclick="selectBack(this)"></img>
+                            <img class="card shadow-sm col" src="c.png" onclick="selectBack(this)"></img>
+                            <img class="card shadow-sm col" src="d.jpeg" onclick="selectBack(this)"></img>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="col-10">
 
         <div class="row g-5" style="overflow:hidden">
             <div class="col-md-10" style="position:relative">
@@ -135,7 +184,7 @@
 
         </div>
 
-        <hr class="col-8">
+        <hr class="col-10">
 
         <div class="row g-5">
             <div class="col-md-10">
